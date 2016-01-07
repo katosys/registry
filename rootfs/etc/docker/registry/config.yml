@@ -1,22 +1,17 @@
 version: 0.1
 log:
-  level: debug
+  level: info
   formatter: text
   fields:
     service: registry
 storage:
-    cache:
-        blobdescriptor: inmemory
-    rados:
-        poolname: radospool
+  cache:
+    blobdescriptor: inmemory
+  rados:
+    poolname: radospool
 http:
-    addr: :5000
-    headers:
-        X-Content-Type-Options: [nosniff]
-health:
-  storagedriver:
-    enabled: true
-    interval: 10s
-    threshold: 3
+  addr: :5000
+  headers:
+    X-Content-Type-Options: [nosniff]
 proxy:
   remoteurl: https://registry-1.docker.io
