@@ -1,5 +1,7 @@
 version: 0.1
 log:
+  level: debug
+  formatter: text
   fields:
     service: registry
 storage:
