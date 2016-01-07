@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# ./bin/marathon start
+# ./bin/marathon restart
+
+[ $# -ne 1 ] && echo "Usage: $0 <start|restart>" && exit 1
+[ -z "${MARATHON_URL}" ] && echo 'Ops! MARATHON_URL is not set' && exit 1
+
+case $1 in
+
+  start)
+    curl -sX POST -H "Content-type: application/json" ${MARATHON_URL}/v2/apps -d @marathon.json | jq '.'
+    ;;
+
+  restart)
+    curl -sX POST -H "Content-type: application/json" ${MARATHON_URL}/v2/apps/sys/registry-ext/restart | jq '.'
+    ;;
+
+esac
