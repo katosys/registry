@@ -1,45 +1,93 @@
 {
-  "id": "/sys/registry-ext",
-  "instances": 1,
-  "cpus": 1,
-  "mem": 1024,
-  "disk": 0,
-  "requirePorts": true,
-  "backoffSeconds": 1,
-  "backoffFactor": 1.15,
-  "maxLaunchDelaySeconds": 3600,
-  "labels": {
-    "name": "registry-ext-sys",
-    "owner": "sys"
-  },
-  "container": {
-    "type": "DOCKER",
-    "docker": {
-      "image": "h0tbird/registry:v2.2.1-1",
-      "network": "BRIDGE",
-      "portMappings": [
-        { "containerPort": 5000, "hostPort": 0 }
-      ],
-      "privileged": false,
-      "parameters": [
-        { "key": "env", "value": "REGISTRY_STORAGE_RADOS_POOLNAME=registry-ext" },
-        { "key": "volume", "value": "/etc/ceph:/etc/ceph" }
-      ],
-      "forcePullImage": true
-    }
-  },
-  "healthChecks": [
+  "id": "/sys/registry",
+  "apps": [
     {
-      "gracePeriodSeconds": 120,
-      "intervalSeconds": 30,
-      "maxConsecutiveFailures": 3,
-      "portIndex": 0,
-      "protocol": "TCP",
-      "timeoutSeconds": 5
+      "id": "external",
+      "instances": 1,
+      "cpus": 1,
+      "mem": 1024,
+      "disk": 0,
+      "requirePorts": true,
+      "backoffSeconds": 1,
+      "backoffFactor": 1.15,
+      "maxLaunchDelaySeconds": 3600,
+      "labels": {
+        "owner": "sys"
+      },
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "image": "h0tbird/registry:v2.2.1-1",
+          "network": "BRIDGE",
+          "portMappings": [
+            { "containerPort": 5000, "hostPort": 0 }
+          ],
+          "privileged": false,
+          "parameters": [
+            { "key": "env", "value": "REGISTRY_STORAGE_RADOS_POOLNAME=registry-ext" },
+            { "key": "volume", "value": "/etc/ceph:/etc/ceph" }
+          ],
+          "forcePullImage": true
+        }
+      },
+      "healthChecks": [
+        {
+          "gracePeriodSeconds": 120,
+          "intervalSeconds": 30,
+          "maxConsecutiveFailures": 3,
+          "portIndex": 0,
+          "protocol": "TCP",
+          "timeoutSeconds": 5
+        }
+      ],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0,
+        "maximumOverCapacity": 1
+      }
+    },
+    {
+      "id": "internal",
+      "instances": 1,
+      "cpus": 1,
+      "mem": 1024,
+      "disk": 0,
+      "requirePorts": true,
+      "backoffSeconds": 1,
+      "backoffFactor": 1.15,
+      "maxLaunchDelaySeconds": 3600,
+      "labels": {
+        "owner": "sys"
+      },
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "image": "h0tbird/registry:v2.2.1-1",
+          "network": "BRIDGE",
+          "portMappings": [
+            { "containerPort": 5000, "hostPort": 0 }
+          ],
+          "privileged": false,
+          "parameters": [
+            { "key": "env", "value": "REGISTRY_STORAGE_RADOS_POOLNAME=registry-int" },
+            { "key": "volume", "value": "/etc/ceph:/etc/ceph" }
+          ],
+          "forcePullImage": true
+        }
+      },
+      "healthChecks": [
+        {
+          "gracePeriodSeconds": 120,
+          "intervalSeconds": 30,
+          "maxConsecutiveFailures": 3,
+          "portIndex": 0,
+          "protocol": "TCP",
+          "timeoutSeconds": 5
+        }
+      ],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0,
+        "maximumOverCapacity": 1
+      }
     }
-  ],
-  "upgradeStrategy": {
-    "minimumHealthCapacity": 0,
-    "maximumOverCapacity": 1
-  }
+  ]
 }

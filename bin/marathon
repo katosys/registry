@@ -1,19 +1,24 @@
 #!/bin/bash
 #
 # ./bin/marathon start
-# ./bin/marathon restart
+# ./bin/marathon deploy
+# ./bin/marathon destroy
 
-[ $# -ne 1 ] && echo "Usage: $0 <start|restart>" && exit 1
+[ $# -ne 1 ] && echo "Usage: $0 <start|deploy|destroy>" && exit 1
 [ -z "${MARATHON_URL}" ] && echo 'Ops! MARATHON_URL is not set' && exit 1
 
 case $1 in
 
   start)
-    curl -sX POST -H "Content-type: application/json" ${MARATHON_URL}/v2/apps -d @marathon.json | jq '.'
+    curl -sX POST -H "Content-type: application/json" ${MARATHON_URL}/v2/groups -d @marathon.json | jq '.'
     ;;
 
-  restart)
-    curl -sX POST -H "Content-type: application/json" ${MARATHON_URL}/v2/apps/sys/registry-ext/restart | jq '.'
+  deploy)
+    curl -sX PUT -H "Content-type: application/json" ${MARATHON_URL}/v2/groups -d @marathon.json | jq '.'
+    ;;
+
+  destroy)
+    curl -sX DELETE -H "Content-type: application/json" ${MARATHON_URL}/v2/groups/sys/registry | jq '.'
     ;;
 
 esac
