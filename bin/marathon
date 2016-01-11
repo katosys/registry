@@ -1,8 +1,4 @@
 #!/bin/bash
-#
-# ./bin/marathon start
-# ./bin/marathon deploy
-# ./bin/marathon destroy
 
 [ $# -ne 1 ] && echo "Usage: $0 <start|deploy|destroy>" && exit 1
 [ -z "${MARATHON_URL}" ] && echo 'Ops! MARATHON_URL is not set' && exit 1
