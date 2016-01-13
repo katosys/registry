@@ -17,7 +17,7 @@
       "container": {
         "type": "DOCKER",
         "docker": {
-          "image": "h0tbird/registry:v2.2.1-1",
+          "image": "h0tbird/registry:v2.2.1-2",
           "network": "BRIDGE",
           "portMappings": [
             { "containerPort": 5000, "hostPort": 0 }
@@ -25,6 +25,7 @@
           "privileged": false,
           "parameters": [
             { "key": "env", "value": "REGISTRY_STORAGE_RADOS_POOLNAME=registry-ext" },
+            { "key": "env", "value": "REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io" },
             { "key": "volume", "value": "/etc/ceph:/etc/ceph" }
           ],
           "forcePullImage": true
@@ -61,7 +62,7 @@
       "container": {
         "type": "DOCKER",
         "docker": {
-          "image": "h0tbird/registry:v2.2.1-1",
+          "image": "h0tbird/registry:v2.2.1-2",
           "network": "BRIDGE",
           "portMappings": [
             { "containerPort": 5000, "hostPort": 0 }
