@@ -24,6 +24,7 @@
           ],
           "privileged": false,
           "parameters": [
+            { "key": "env", "value": "REGISTRY_HTTP_DEBUG_ADDR=localhost:5001" },
             { "key": "env", "value": "REGISTRY_STORAGE_RADOS_POOLNAME=registry-ext" },
             { "key": "env", "value": "REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io" },
             { "key": "volume", "value": "/etc/ceph:/etc/ceph" }
@@ -69,6 +70,7 @@
           ],
           "privileged": false,
           "parameters": [
+            { "key": "env", "value": "REGISTRY_HTTP_DEBUG_ADDR=localhost:5001" },
             { "key": "env", "value": "REGISTRY_STORAGE_RADOS_POOLNAME=registry-int" },
             { "key": "volume", "value": "/etc/ceph:/etc/ceph" }
           ],
