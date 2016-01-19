@@ -33,5 +33,4 @@ ADD rootfs /
 #------------------------------------------------------------------------------
 
 EXPOSE 5000
-ENTRYPOINT ["/bin/registry"]
-CMD ["/etc/docker/registry/config.yml"]
+ENTRYPOINT ["/init"]

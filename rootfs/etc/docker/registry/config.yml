@@ -7,8 +7,6 @@ log:
 storage:
   cache:
     blobdescriptor: inmemory
-  rados:
-    poolname: radospool
 http:
   addr: :5000
   headers:
@@ -18,3 +16,10 @@ health:
     enabled: true
     interval: 10s
     threshold: 3
+notifications:
+  endpoints:
+    - name: XXX-ENDPOINT_NAME-XXX
+      url: XXX-ENDPOINT_URL-XXX
+      timeout: XXX-ENDPOINT_TIMEOUT-XXXms
+      threshold: XXX-ENDPOINT_THRESHOLD-XXX
+      backoff: XXX-ENDPOINT_BACKOFF-XXXs
