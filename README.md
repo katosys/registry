@@ -15,32 +15,29 @@ core@core-1 ~ $ rados ls -p registry-ext | grep '^/$'
 /
 ```
 
-##### TLS cert and key
+##### Certificate
 
 ```
-openssl req \
--subj '/CN=domain.com/O=My Company Name LTD./C=US' \
--new \
--newkey rsa:2048 \
--days 365 \
--nodes \
--x509 \
--keyout certs/server.key \
--out certs/server.crt
+mkdir certs && openssl req \
+-newkey rsa:4096 -nodes -sha256 -x509 -days 365 \
+-subj '/CN=127.0.0.1/O=Localhost LTD./C=US' \
+-keyout certs/server.key -out certs/server.crt
 ```
 
 ##### Registry
 
 ```
 docker run -it --rm \
---net host \
+--net host --name registry \
 --volume ${PWD}/certs:/certs \
---env REGISTRY_LOG_LEVEL=info \
---env REGISTRY_HTTP_SECRET=long-secret-goes-here \
+--env REGISTRY_HTTP_SECRET=secret-goes-here \
 --env REGISTRY_HTTP_TLS_CERTIFICATE=/certs/server.crt \
 --env REGISTRY_HTTP_TLS_KEY=/certs/server.key \
---env REGISTRY_STORAGE_DELETE_ENABLED=true \
 --env REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/var/lib/registry \
+--env REGISTRY_AUTH_TOKEN_REALM=http://127.0.0.1/v2/token \
+--env REGISTRY_AUTH_TOKEN_SERVICE=127.0.0.1:5000 \
+--env REGISTRY_AUTH_TOKEN_ISSUER=127.0.0.1 \
+--env REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/certs/server.crt \
 --env ENDPOINT_NAME=portus \
 --env ENDPOINT_URL=http://127.0.0.1/v2/webhooks/events \
 --env ENDPOINT_TIMEOUT=500 \

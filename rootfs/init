@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#------------------------------------------------------------------------------
+# Configure the service:
+#------------------------------------------------------------------------------
+
+CONFIG_FILE='/etc/docker/registry/config.yml'
+
+[ "${ENDPOINT_NAME}" ] && {
+
+  sed -i "s#XXX-ENDPOINT_NAME-XXX#${ENDPOINT_NAME}#" ${CONFIG_FILE}
+
+  [ "${ENDPOINT_URL}" ] || { echo 'Ops! ENDPOINT_URL must exist'; exit 1; }
+  sed -i "s#XXX-ENDPOINT_URL-XXX#${ENDPOINT_URL}#" ${CONFIG_FILE}
+
+  ENDPOINT_TIMEOUT="${ENDPOINT_TIMEOUT:-500}" && \
+  sed -i "s#XXX-ENDPOINT_TIMEOUT-XXX#${ENDPOINT_TIMEOUT}#" ${CONFIG_FILE}
+
+  ENDPOINT_THRESHOLD="${ENDPOINT_THRESHOLD:-5}" && \
+  sed -i "s#XXX-ENDPOINT_THRESHOLD-XXX#${ENDPOINT_THRESHOLD}#" ${CONFIG_FILE}
+
+  ENDPOINT_BACKOFF="${ENDPOINT_BACKOFF:-1}" && \
+  sed -i "s#XXX-ENDPOINT_BACKOFF-XXX#${ENDPOINT_BACKOFF}#" ${CONFIG_FILE}
+}
+
+#------------------------------------------------------------------------------
+# Run:
+#------------------------------------------------------------------------------
+
+exec registry ${CONFIG_FILE}
