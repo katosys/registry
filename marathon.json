@@ -77,7 +77,7 @@
             { "key": "env", "value": "REGISTRY_HTTP_TLS_KEY=/mnt/mesos/sandbox/certs/server.key" },
             { "key": "env", "value": "REGISTRY_STORAGE_RADOS_POOLNAME=registry-int" },
             { "key": "env", "value": "REGISTRY_AUTH_TOKEN_REALM=http://web-portus-sys.marathon/v2/token" },
-            { "key": "env", "value": "REGISTRY_AUTH_TOKEN_SERVICE=internal-registry-sys.marathon:5000" },
+            { "key": "env", "value": "REGISTRY_AUTH_TOKEN_SERVICE=internal-registry-sys.marathon.cell-1.mad.mesos:5000" },
             { "key": "env", "value": "REGISTRY_AUTH_TOKEN_ISSUER=web-portus-sys.marathon" },
             { "key": "env", "value": "REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/mnt/mesos/sandbox/certs/server.crt" },
             { "key": "env", "value": "ENDPOINT_NAME=portus" },
