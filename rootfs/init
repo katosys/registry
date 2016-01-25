@@ -4,9 +4,13 @@
 # Configure the service:
 #------------------------------------------------------------------------------
 
-CONFIG_FILE='/etc/docker/registry/config.yml'
+CONFIG_DIR='/etc/docker/registry'
 
 [ "${ENDPOINT_NAME}" ] && {
+
+  CONFIG_FILE='06-notifications.yml'
+  mv ${CONFIG_DIR}/.${CONFIG_FILE} ${CONFIG_DIR}/${CONFIG_FILE}
+  CONFIG_FILE=${CONFIG_DIR}/${CONFIG_FILE}
 
   sed -i "s#XXX-ENDPOINT_NAME-XXX#${ENDPOINT_NAME}#" ${CONFIG_FILE}
 
@@ -27,4 +31,5 @@ CONFIG_FILE='/etc/docker/registry/config.yml'
 # Run:
 #------------------------------------------------------------------------------
 
-exec registry ${CONFIG_FILE}
+cat ${CONFIG_DIR}/* > ${CONFIG_DIR}/config.yml
+exec registry ${CONFIG_DIR}/config.yml

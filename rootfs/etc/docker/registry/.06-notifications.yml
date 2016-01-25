@@ -1,0 +1,7 @@
+notifications:
+  endpoints:
+    - name: XXX-ENDPOINT_NAME-XXX
+      url: XXX-ENDPOINT_URL-XXX
+      timeout: XXX-ENDPOINT_TIMEOUT-XXXms
+      threshold: XXX-ENDPOINT_THRESHOLD-XXX
+      backoff: XXX-ENDPOINT_BACKOFF-XXXs
