@@ -25,11 +25,12 @@
           "privileged": false,
           "parameters": [
             { "key": "env", "value": "REGISTRY_HTTP_DEBUG_ADDR=localhost:5001" },
+            { "key": "env", "value": "REGISTRY_HTTP_SECRET=secret-goes-here" },
             { "key": "env", "value": "REGISTRY_STORAGE_RADOS_POOLNAME=registry-ext" },
             { "key": "env", "value": "REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io" },
             { "key": "volume", "value": "/etc/ceph:/etc/ceph" }
           ],
-          "forcePullImage": true
+          "forcePullImage": false
         }
       },
       "healthChecks": [
@@ -71,7 +72,14 @@
           "privileged": false,
           "parameters": [
             { "key": "env", "value": "REGISTRY_HTTP_DEBUG_ADDR=localhost:5001" },
+            { "key": "env", "value": "REGISTRY_HTTP_SECRET=secret-goes-here" },
+            { "key": "env", "value": "REGISTRY_HTTP_TLS_CERTIFICATE=/mnt/mesos/sandbox/certs/server.crt" },
+            { "key": "env", "value": "REGISTRY_HTTP_TLS_KEY=/mnt/mesos/sandbox/certs/server.key" },
             { "key": "env", "value": "REGISTRY_STORAGE_RADOS_POOLNAME=registry-int" },
+            { "key": "env", "value": "REGISTRY_AUTH_TOKEN_REALM=http://web-portus-sys.marathon/v2/token" },
+            { "key": "env", "value": "REGISTRY_AUTH_TOKEN_SERVICE=internal-registry-sys.marathon:5000" },
+            { "key": "env", "value": "REGISTRY_AUTH_TOKEN_ISSUER=web-portus-sys.marathon" },
+            { "key": "env", "value": "REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/mnt/mesos/sandbox/certs/server.crt" },
             { "key": "env", "value": "ENDPOINT_NAME=portus" },
             { "key": "env", "value": "ENDPOINT_URL=http://web-portus-sys.marathon/v2/webhooks/events" },
             { "key": "env", "value": "ENDPOINT_TIMEOUT=500" },
@@ -79,7 +87,7 @@
             { "key": "env", "value": "ENDPOINT_BACKOFF=1" },
             { "key": "volume", "value": "/etc/ceph:/etc/ceph" }
           ],
-          "forcePullImage": true
+          "forcePullImage": false
         }
       },
       "healthChecks": [
@@ -91,6 +99,9 @@
           "protocol": "TCP",
           "timeoutSeconds": 5
         }
+      ],
+      "uris":  [
+        "http://data01/secrets/certs.tar.bz2"
       ],
       "upgradeStrategy": {
         "minimumHealthCapacity": 0,
