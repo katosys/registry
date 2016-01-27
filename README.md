@@ -9,9 +9,10 @@ Containerized Docker registry service
 If you plan to use a RADOS pool as storage backend I recommend you to create the `/` object before starting the Docker registry:
 
 ```
-core@core-1 ~ $ ceph osd pool create registry-ext 64
-core@core-1 ~ $ rados -p registry-ext put / /dev/null
-core@core-1 ~ $ rados ls -p registry-ext | grep '^/$'
+core@core-1 ~ $ ceph osd pool delete registry-int registry-int --yes-i-really-really-mean-it
+core@core-1 ~ $ ceph osd pool create registry-int 64
+core@core-1 ~ $ rados -p registry-int put / /dev/null
+core@core-1 ~ $ rados ls -p registry-int | grep '^/$'
 /
 ```
 
