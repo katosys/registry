@@ -44,5 +44,5 @@ docker run -it --rm \
 --env ENDPOINT_TIMEOUT=500 \
 --env ENDPOINT_THRESHOLD=5 \
 --env ENDPOINT_BACKOFF=1 \
-h0tbird/registry:v2.2.1-4
+h0tbird/registry:v2.3.0-1
 ```
