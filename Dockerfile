@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y wget \
     && echo deb http://ceph.com/debian-${CEPH_VERSION}/ jessie main | \
        tee /etc/apt/sources.list.d/ceph-${CEPH_VERSION}.list \
     && apt-get update && apt-get install -y librados2 && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /etc/docker/registry/*
 
 #------------------------------------------------------------------------------
 # Populate root file system:
