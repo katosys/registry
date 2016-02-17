@@ -1,6 +1,38 @@
 #!/bin/bash
 
 #------------------------------------------------------------------------------
+# Install SSL certificates:
+#------------------------------------------------------------------------------
+
+[ "${SSL_TRUST}" ] && {
+
+  IFS=',' read -ra ADDR <<< "${SSL_TRUST}"
+
+  # For each URL:
+  for i in "${ADDR[@]}"; do
+
+    # Set variables:
+    ALIAS=$(echo ${i} | tr .: _)
+
+    # Get the remote certificate:
+    echo "[init] Downloading ${ALIAS} certificate..."
+    echo | openssl s_client -showcerts -connect ${i} 2>/dev/null | \
+    sed -n '/-BEGIN/,/-END/ p' > /tmp/${ALIAS}.crt
+
+    # Verify we have something usable:
+    grep -q CERTIFICATE /tmp/${ALIAS}.crt && {
+
+      # Import the certificate (system):
+      echo "[init] Importing ${ALIAS} certificate (system)..."
+      mv /tmp/${ALIAS}.crt /usr/local/share/ca-certificates/
+      update-ca-certificates
+
+    } || echo "[init] Ops! Cannot retrieve the ${ALIAS} certificate"
+
+  done
+}
+
+#------------------------------------------------------------------------------
 # Configure the service:
 #------------------------------------------------------------------------------
 

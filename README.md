@@ -31,6 +31,7 @@ mkdir certs && openssl req \
 docker run -it --rm \
 --net host --name registry \
 --volume ${PWD}/certs:/certs \
+--env REGISTRY_LOG_LEVEL=info \
 --env REGISTRY_HTTP_SECRET=secret-goes-here \
 --env REGISTRY_HTTP_TLS_CERTIFICATE=/certs/server-crt.pem \
 --env REGISTRY_HTTP_TLS_KEY=/certs/server-key.pem \
@@ -39,6 +40,7 @@ docker run -it --rm \
 --env REGISTRY_AUTH_TOKEN_SERVICE=127.0.0.1:5000 \
 --env REGISTRY_AUTH_TOKEN_ISSUER=127.0.0.1 \
 --env REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/certs/server-crt.pem \
+--env SSL_TRUST=foo:443,bar:443 \
 --env ENDPOINT_NAME=portus \
 --env ENDPOINT_URL=http://127.0.0.1/v2/webhooks/events \
 --env ENDPOINT_TIMEOUT=500 \
