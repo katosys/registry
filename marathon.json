@@ -17,7 +17,7 @@
       "container": {
         "type": "DOCKER",
         "docker": {
-          "image": "h0tbird/registry:v2.3.0-1",
+          "image": "h0tbird/registry:v2.3.0-2",
           "network": "BRIDGE",
           "portMappings": [
             { "containerPort": 5000, "hostPort": 0 }
@@ -64,7 +64,7 @@
       "container": {
         "type": "DOCKER",
         "docker": {
-          "image": "h0tbird/registry:v2.3.0-1",
+          "image": "h0tbird/registry:v2.3.0-2",
           "network": "BRIDGE",
           "portMappings": [
             { "containerPort": 5000, "hostPort": 0 }
@@ -72,16 +72,18 @@
           "privileged": false,
           "parameters": [
             { "key": "env", "value": "REGISTRY_HTTP_DEBUG_ADDR=localhost:5001" },
+            { "key": "env", "value": "REGISTRY_LOG_LEVEL=info" },
             { "key": "env", "value": "REGISTRY_HTTP_SECRET=secret-goes-here" },
             { "key": "env", "value": "REGISTRY_HTTP_TLS_CERTIFICATE=/mnt/mesos/sandbox/certs/server-crt.pem" },
             { "key": "env", "value": "REGISTRY_HTTP_TLS_KEY=/mnt/mesos/sandbox/certs/server-key.pem" },
             { "key": "env", "value": "REGISTRY_STORAGE_RADOS_POOLNAME=registry-int" },
-            { "key": "env", "value": "REGISTRY_AUTH_TOKEN_REALM=http://web-portus-sys.marathon/v2/token" },
+            { "key": "env", "value": "REGISTRY_AUTH_TOKEN_REALM=https://web-portus-sys.marathon/v2/token" },
             { "key": "env", "value": "REGISTRY_AUTH_TOKEN_SERVICE=internal-registry-sys.marathon:5000" },
             { "key": "env", "value": "REGISTRY_AUTH_TOKEN_ISSUER=web-portus-sys.marathon" },
             { "key": "env", "value": "REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/mnt/mesos/sandbox/certs/server-crt.pem" },
+            { "key": "env", "value": "SSL_TRUST=web-portus-sys.marathon:443" },
             { "key": "env", "value": "ENDPOINT_NAME=portus" },
-            { "key": "env", "value": "ENDPOINT_URL=http://web-portus-sys.marathon/v2/webhooks/events" },
+            { "key": "env", "value": "ENDPOINT_URL=https://web-portus-sys.marathon/v2/webhooks/events" },
             { "key": "env", "value": "ENDPOINT_TIMEOUT=500" },
             { "key": "env", "value": "ENDPOINT_THRESHOLD=5" },
             { "key": "env", "value": "ENDPOINT_BACKOFF=1" },
@@ -106,7 +108,10 @@
       "upgradeStrategy": {
         "minimumHealthCapacity": 0,
         "maximumOverCapacity": 1
-      }
+      },
+      "dependencies": [
+        "/sys/portus/web"
+      ]
     }
   ]
 }
