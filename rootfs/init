@@ -24,8 +24,10 @@
 
       # Import the certificate (system):
       echo "[init] Importing ${ALIAS} certificate (system)..."
-      mv /tmp/${ALIAS}.crt /usr/local/share/ca-certificates/
-      update-ca-certificates
+      cd /usr/local/share/ca-certificates
+      awk '{print $0 "-----END CERTIFICATE-----" > "cert-"NR".crt"}' \
+        RS='-----END CERTIFICATE-----' /tmp/${ALIAS}.crt
+      rm -f $(ls cert-* | tail -n1) && update-ca-certificates
 
     } || echo "[init] Ops! Cannot retrieve the ${ALIAS} certificate"
 
@@ -63,5 +65,6 @@ CONFIG_DIR='/etc/docker/registry'
 # Run:
 #------------------------------------------------------------------------------
 
+cat ${CONFIG_DIR}/*
 cat ${CONFIG_DIR}/* > ${CONFIG_DIR}/config.yml
-exec registry ${CONFIG_DIR}/config.yml
+exec registry serve ${CONFIG_DIR}/config.yml

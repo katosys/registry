@@ -2,25 +2,28 @@
 # Set the base image for subsequent instructions:
 #------------------------------------------------------------------------------
 
-FROM registry:2.3.0
+FROM alpine:3.4
 MAINTAINER Marc Villacorta Morera <marc.villacorta@gmail.com>
 
 #------------------------------------------------------------------------------
 # Environment variables:
 #------------------------------------------------------------------------------
 
-ENV CEPH_VERSION="infernalis"
+ENV GOPATH=/go \
+    VERSION="2.4.1"
 
 #------------------------------------------------------------------------------
-# Install librados2
+# Install:
 #------------------------------------------------------------------------------
 
-RUN apt-get update && apt-get install -y wget \
-    && wget -q -O- 'https://download.ceph.com/keys/release.asc' | apt-key add - \
-    && echo deb http://ceph.com/debian-${CEPH_VERSION}/ jessie main | \
-       tee /etc/apt/sources.list.d/ceph-${CEPH_VERSION}.list \
-    && apt-get update && apt-get install -y librados2 && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /etc/docker/registry/*
+RUN apk add --no-cache --update -t deps go git make \
+    && apk add --no-cache --update bash openssl ca-certificates \
+    && go get github.com/docker/distribution \
+    && cd ${GOPATH}/src/github.com/docker/distribution \
+    && git checkout tags/v${VERSION} -b ${VERSION} \
+    && make PREFIX=/usr clean binaries \
+    && apk del --purge deps \
+    && rm -rf /go /tmp/* /var/cache/apk/*
 
 #------------------------------------------------------------------------------
 # Populate root file system:
