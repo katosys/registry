@@ -21,9 +21,8 @@ RUN apk add --no-cache --update -t deps go git make \
     && go get github.com/docker/distribution \
     && cd ${GOPATH}/src/github.com/docker/distribution \
     && git checkout tags/v${VERSION} -b ${VERSION} \
-    && make PREFIX=/usr clean binaries \
-    && apk del --purge deps \
-    && rm -rf /go /tmp/* /var/cache/apk/*
+    && make PREFIX=/usr clean binaries && mkdir /var/lib/registry \
+    && apk del --purge deps && rm -rf /go /tmp/* /var/cache/apk/*
 
 #------------------------------------------------------------------------------
 # Populate root file system:
