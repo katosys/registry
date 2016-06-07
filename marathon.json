@@ -7,7 +7,6 @@
       "cpus": 1,
       "mem": 1024,
       "disk": 0,
-      "requirePorts": true,
       "backoffSeconds": 1,
       "backoffFactor": 1.15,
       "maxLaunchDelaySeconds": 3600,
@@ -17,7 +16,7 @@
       "container": {
         "type": "DOCKER",
         "docker": {
-          "image": "h0tbird/registry:v2.3.0-2",
+          "image": "h0tbird/registry:v2.4.1-2",
           "network": "BRIDGE",
           "portMappings": [
             { "containerPort": 5000, "hostPort": 0 }
@@ -26,9 +25,8 @@
           "parameters": [
             { "key": "env", "value": "REGISTRY_HTTP_DEBUG_ADDR=localhost:5001" },
             { "key": "env", "value": "REGISTRY_HTTP_SECRET=secret-goes-here" },
-            { "key": "env", "value": "REGISTRY_STORAGE_RADOS_POOLNAME=registry-ext" },
-            { "key": "env", "value": "REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io" },
-            { "key": "volume", "value": "/etc/ceph:/etc/ceph" }
+            { "key": "env", "value": "REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/var/lib/registry" },
+            { "key": "env", "value": "REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io" }
           ],
           "forcePullImage": false
         }
@@ -54,7 +52,6 @@
       "cpus": 1,
       "mem": 1024,
       "disk": 0,
-      "requirePorts": true,
       "backoffSeconds": 1,
       "backoffFactor": 1.15,
       "maxLaunchDelaySeconds": 3600,
@@ -64,7 +61,7 @@
       "container": {
         "type": "DOCKER",
         "docker": {
-          "image": "h0tbird/registry:v2.3.0-2",
+          "image": "h0tbird/registry:v2.4.1-2",
           "network": "BRIDGE",
           "portMappings": [
             { "containerPort": 5000, "hostPort": 0 }
@@ -76,18 +73,17 @@
             { "key": "env", "value": "REGISTRY_HTTP_SECRET=secret-goes-here" },
             { "key": "env", "value": "REGISTRY_HTTP_TLS_CERTIFICATE=/mnt/mesos/sandbox/certs/server-crt.pem" },
             { "key": "env", "value": "REGISTRY_HTTP_TLS_KEY=/mnt/mesos/sandbox/certs/server-key.pem" },
-            { "key": "env", "value": "REGISTRY_STORAGE_RADOS_POOLNAME=registry-int" },
             { "key": "env", "value": "REGISTRY_AUTH_TOKEN_REALM=https://web-portus-sys.marathon/v2/token" },
             { "key": "env", "value": "REGISTRY_AUTH_TOKEN_SERVICE=internal-registry-sys.marathon:5000" },
             { "key": "env", "value": "REGISTRY_AUTH_TOKEN_ISSUER=web-portus-sys.marathon" },
             { "key": "env", "value": "REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/mnt/mesos/sandbox/certs/server-crt.pem" },
+            { "key": "env", "value": "REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/var/lib/registry" },
             { "key": "env", "value": "SSL_TRUST=web-portus-sys.marathon:443" },
             { "key": "env", "value": "ENDPOINT_NAME=portus" },
             { "key": "env", "value": "ENDPOINT_URL=https://web-portus-sys.marathon/v2/webhooks/events" },
             { "key": "env", "value": "ENDPOINT_TIMEOUT=500" },
             { "key": "env", "value": "ENDPOINT_THRESHOLD=5" },
-            { "key": "env", "value": "ENDPOINT_BACKOFF=1" },
-            { "key": "volume", "value": "/etc/ceph:/etc/ceph" }
+            { "key": "env", "value": "ENDPOINT_BACKOFF=1" }
           ],
           "forcePullImage": false
         }
@@ -103,7 +99,7 @@
         }
       ],
       "uris":  [
-        "http://data01/secrets/certs.tar.bz2"
+        "file:///etc/certs/certs.tar.bz2"
       ],
       "upgradeStrategy": {
         "minimumHealthCapacity": 0,
