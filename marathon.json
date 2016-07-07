@@ -77,6 +77,7 @@
             { "key": "env", "value": "REGISTRY_STORAGE_S3_REGION=eu-west-1" },
             { "key": "env", "value": "REGISTRY_STORAGE_S3_BUCKET=cell-1.dub.xnood.com" },
             { "key": "env", "value": "REGISTRY_STORAGE_S3_ROOTDIRECTORY=/registry/internal" },
+            { "key": "env", "value": "REGISTRY_STORAGE_DELETE_ENABLED=true" },
             { "key": "env", "value": "REGISTRY_HTTP_TLS_CERTIFICATE=/mnt/mesos/sandbox/certs/server-crt.pem" },
             { "key": "env", "value": "REGISTRY_HTTP_TLS_KEY=/mnt/mesos/sandbox/certs/server-key.pem" },
             { "key": "env", "value": "REGISTRY_AUTH_TOKEN_REALM=https://web-portus-sys.marathon/v2/token" },
