@@ -1,6 +1,6 @@
-# docker-registry
+# registry
 
-[![Build Status](https://travis-ci.org/h0tbird/docker-registry.svg?branch=master)](https://travis-ci.org/h0tbird/docker-registry)
+[![Build Status](https://travis-ci.org/katosys/registry.svg?branch=master)](https://travis-ci.org/katosys/registry)
 
 Containerized Docker registry service
 
@@ -35,7 +35,7 @@ docker run -it --rm \
 --env ENDPOINT_TIMEOUT=500 \
 --env ENDPOINT_THRESHOLD=5 \
 --env ENDPOINT_BACKOFF=1 \
-h0tbird/registry:2.4.1-2
+quay.io/kato/registry:2.4.1-2
 ```
 
 Verify the status of the registry:
