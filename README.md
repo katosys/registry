@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/katosys/registry.svg?branch=master)](https://travis-ci.org/katosys/registry)
 
-Containerized Docker registry service
+A containerized Docker registry service.
 
 ##### Certificate
 
@@ -35,7 +35,7 @@ docker run -it --rm \
 --env ENDPOINT_TIMEOUT=500 \
 --env ENDPOINT_THRESHOLD=5 \
 --env ENDPOINT_BACKOFF=1 \
-quay.io/kato/registry:2.5.1-1
+quay.io/kato/registry:2.5.1-2
 ```
 
 Verify the status of the registry:
