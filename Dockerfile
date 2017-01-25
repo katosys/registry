@@ -22,7 +22,9 @@ RUN apk add --no-cache -U -t deps go git make musl-dev \
     && cd ${GOPATH}/src/github.com/docker/distribution \
     && git checkout tags/v${VERSION} -b build \
     && make PREFIX=/usr clean binaries && mkdir /var/lib/registry \
-    && apk del --purge deps && rm -rf /go /tmp/* /var/cache/apk/*
+    && apk del --purge deps && rm -rf /go /tmp/* /var/cache/apk/* \
+    && rm -f /usr/bin/registry-api-descriptor-template \
+    && rm -f /usr/bin/digest
 
 #------------------------------------------------------------------------------
 # Populate root file system:
