@@ -2,7 +2,7 @@
 # Set the base image for subsequent instructions:
 #------------------------------------------------------------------------------
 
-FROM alpine:3.4
+FROM alpine:3.5
 MAINTAINER Marc Villacorta Morera <marc.villacorta@gmail.com>
 
 #------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ ENV GOPATH=/go \
 # Install:
 #------------------------------------------------------------------------------
 
-RUN apk add --no-cache --update -t deps go git make \
+RUN apk add --no-cache -U -t deps go git make musl-dev \
     && apk add --no-cache --update bash openssl ca-certificates \
     && go get github.com/docker/distribution \
     && cd ${GOPATH}/src/github.com/docker/distribution \
