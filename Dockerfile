@@ -9,7 +9,7 @@ MAINTAINER Marc Villacorta Morera <marc.villacorta@gmail.com>
 # Environment variables:
 #------------------------------------------------------------------------------
 
-ENV GOPATH=/go \
+ENV GOPATH="/go" \
     VERSION="2.5.1"
 
 #------------------------------------------------------------------------------
@@ -17,10 +17,10 @@ ENV GOPATH=/go \
 #------------------------------------------------------------------------------
 
 RUN apk add --no-cache -U -t deps go git make musl-dev \
-    && apk add --no-cache --update bash openssl ca-certificates \
+    && apk add --no-cache -U bash libressl ca-certificates \
     && go get github.com/docker/distribution \
     && cd ${GOPATH}/src/github.com/docker/distribution \
-    && git checkout tags/v${VERSION} -b ${VERSION} \
+    && git checkout tags/v${VERSION} -b build \
     && make PREFIX=/usr clean binaries && mkdir /var/lib/registry \
     && apk del --purge deps && rm -rf /go /tmp/* /var/cache/apk/*
 

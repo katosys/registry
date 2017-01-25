@@ -16,7 +16,7 @@
 
     # Get the remote certificate:
     echo "[init] Downloading ${ALIAS} certificate..."
-    echo | openssl s_client -showcerts -connect ${i} 2>/dev/null | \
+    echo | openssl s_client -showcerts -connect ${i} </dev/null | \
     sed -n '/-BEGIN/,/-END/ p' > /tmp/${ALIAS}.crt
 
     # Verify we have something usable:
