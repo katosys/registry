@@ -3,44 +3,50 @@
   "apps": [
     {
       "id": "external",
-      "instances": 1,
       "cpus": 0.2,
       "mem": 1024,
-      "disk": 0,
+      "instances": 1,
       "backoffSeconds": 1,
       "backoffFactor": 1.15,
       "maxLaunchDelaySeconds": 3600,
       "labels": {
         "owner": "sys"
       },
+      "ipAddress": {
+        "networkName": "devel",
+        "labels": {
+          "app": "external",
+          "group": "registry"
+        },
+        "discovery": {
+          "ports": [
+            { "number": 5000, "name": "registry", "protocol": "tcp" }
+          ]
+        }
+      },
       "container": {
-        "type": "DOCKER",
+        "type": "MESOS",
         "docker": {
-          "image": "quay.io/kato/registry:v2.4.1-2",
-          "network": "BRIDGE",
-          "portMappings": [
-            { "containerPort": 5000, "hostPort": 0 }
-          ],
-          "privileged": false,
-          "parameters": [
-            { "key": "env", "value": "REGISTRY_LOG_LEVEL=debug" },
-            { "key": "env", "value": "REGISTRY_HTTP_DEBUG_ADDR=localhost:5001" },
-            { "key": "env", "value": "REGISTRY_HTTP_SECRET=secret-goes-here" },
-            { "key": "env", "value": "REGISTRY_STORAGE_S3_REGION=eu-west-1" },
-            { "key": "env", "value": "REGISTRY_STORAGE_S3_BUCKET=cell-1.dub.xnood.com" },
-            { "key": "env", "value": "REGISTRY_STORAGE_S3_ROOTDIRECTORY=/registry/external" },
-            { "key": "env", "value": "REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io" }
-          ],
+          "image": "quay.io/kato/registry:v2.5.1-2",
           "forcePullImage": false
         }
       },
+      "env": {
+        "REGISTRY_LOG_LEVEL": "debug",
+        "REGISTRY_HTTP_DEBUG_ADDR": "localhost:5001",
+        "REGISTRY_HTTP_SECRET": "secret-goes-here",
+        "REGISTRY_STORAGE_S3_REGION": "eu-west-1",
+        "REGISTRY_STORAGE_S3_BUCKET": "cell-1.dub.xnood.com",
+        "REGISTRY_STORAGE_S3_ROOTDIRECTORY": "/registry/external",
+        "REGISTRY_PROXY_REMOTEURL": "https://registry-1.docker.io"
+      },
       "healthChecks": [
         {
+          "port": 5000,
+          "protocol": "MESOS_TCP",
           "gracePeriodSeconds": 120,
           "intervalSeconds": 30,
           "maxConsecutiveFailures": 3,
-          "portIndex": 0,
-          "protocol": "TCP",
           "timeoutSeconds": 5
         }
       ],
@@ -51,56 +57,62 @@
     },
     {
       "id": "internal",
-      "instances": 1,
       "cpus": 0.2,
       "mem": 1024,
-      "disk": 0,
+      "instances": 1,
       "backoffSeconds": 1,
       "backoffFactor": 1.15,
       "maxLaunchDelaySeconds": 3600,
       "labels": {
         "owner": "sys"
       },
+      "ipAddress": {
+        "networkName": "devel",
+        "labels": {
+          "app": "internal",
+          "group": "registry"
+        },
+        "discovery": {
+          "ports": [
+            { "number": 5000, "name": "registry", "protocol": "tcp" }
+          ]
+        }
+      },
       "container": {
-        "type": "DOCKER",
+        "type": "MESOS",
         "docker": {
-          "image": "quay.io/kato/registry:v2.4.1-2",
-          "network": "BRIDGE",
-          "portMappings": [
-            { "containerPort": 5000, "hostPort": 0 }
-          ],
-          "privileged": false,
-          "parameters": [
-            { "key": "env", "value": "REGISTRY_LOG_LEVEL=debug" },
-            { "key": "env", "value": "REGISTRY_HTTP_DEBUG_ADDR=localhost:5001" },
-            { "key": "env", "value": "REGISTRY_HTTP_SECRET=secret-goes-here" },
-            { "key": "env", "value": "REGISTRY_STORAGE_S3_REGION=eu-west-1" },
-            { "key": "env", "value": "REGISTRY_STORAGE_S3_BUCKET=cell-1.dub.xnood.com" },
-            { "key": "env", "value": "REGISTRY_STORAGE_S3_ROOTDIRECTORY=/registry/internal" },
-            { "key": "env", "value": "REGISTRY_STORAGE_DELETE_ENABLED=true" },
-            { "key": "env", "value": "REGISTRY_HTTP_TLS_CERTIFICATE=/mnt/mesos/sandbox/certs/server-crt.pem" },
-            { "key": "env", "value": "REGISTRY_HTTP_TLS_KEY=/mnt/mesos/sandbox/certs/server-key.pem" },
-            { "key": "env", "value": "REGISTRY_AUTH_TOKEN_REALM=https://web-portus-sys.marathon/v2/token" },
-            { "key": "env", "value": "REGISTRY_AUTH_TOKEN_SERVICE=internal-registry-sys.marathon:5000" },
-            { "key": "env", "value": "REGISTRY_AUTH_TOKEN_ISSUER=web-portus-sys.marathon" },
-            { "key": "env", "value": "REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/mnt/mesos/sandbox/certs/server-crt.pem" },
-            { "key": "env", "value": "SSL_TRUST=web-portus-sys.marathon:443" },
-            { "key": "env", "value": "ENDPOINT_NAME=portus" },
-            { "key": "env", "value": "ENDPOINT_URL=https://web-portus-sys.marathon/v2/webhooks/events" },
-            { "key": "env", "value": "ENDPOINT_TIMEOUT=500" },
-            { "key": "env", "value": "ENDPOINT_THRESHOLD=5" },
-            { "key": "env", "value": "ENDPOINT_BACKOFF=1" }
-          ],
+          "image": "quay.io/kato/registry:v2.5.1-2",
           "forcePullImage": false
         }
       },
+      "env": {
+        "REGISTRY_LOG_LEVEL": "debug",
+        "REGISTRY_HTTP_DEBUG_ADDR": "localhost:5001",
+        "REGISTRY_HTTP_SECRET": "secret-goes-here",
+        "REGISTRY_STORAGE_S3_REGION": "eu-west-1",
+        "REGISTRY_STORAGE_S3_BUCKET": "cell-1.dub.xnood.com",
+        "REGISTRY_STORAGE_S3_ROOTDIRECTORY": "/registry/internal",
+        "REGISTRY_STORAGE_DELETE_ENABLED": "true",
+        "REGISTRY_HTTP_TLS_CERTIFICATE": "/mnt/mesos/sandbox/certs/server-crt.pem",
+        "REGISTRY_HTTP_TLS_KEY": "/mnt/mesos/sandbox/certs/server-key.pem",
+        "REGISTRY_AUTH_TOKEN_REALM": "https://web-portus-sys/v2/token",
+        "REGISTRY_AUTH_TOKEN_SERVICE": "internal-registry-sys:5000",
+        "REGISTRY_AUTH_TOKEN_ISSUER": "web-portus-sys",
+        "REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE": "/mnt/mesos/sandbox/certs/server-crt.pem",
+        "SSL_TRUST": "web-portus-sys:443",
+        "ENDPOINT_NAME": "portus",
+        "ENDPOINT_URL": "https://web-portus-sys/v2/webhooks/events",
+        "ENDPOINT_TIMEOUT": "500",
+        "ENDPOINT_THRESHOLD": "5",
+        "ENDPOINT_BACKOFF": "1"
+      },
       "healthChecks": [
         {
+          "port": 5000,
+          "protocol": "MESOS_TCP",
           "gracePeriodSeconds": 120,
           "intervalSeconds": 30,
           "maxConsecutiveFailures": 3,
-          "portIndex": 0,
-          "protocol": "TCP",
           "timeoutSeconds": 5
         }
       ],

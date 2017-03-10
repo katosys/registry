@@ -1,0 +1,24 @@
+- apiVersion: v1
+  kind: policy
+  metadata:
+    name: registry-external
+  spec:
+    selector: group == 'registry' && app == 'external'
+    ingress:
+    - action: allow
+      protocol: tcp
+      destination:
+       ports:
+        - 5000
+- apiVersion: v1
+  kind: policy
+  metadata:
+    name: registry-internal
+  spec:
+    selector: group == 'registry' && app == 'internal'
+    ingress:
+    - action: allow
+      protocol: tcp
+      destination:
+       ports:
+        - 5000

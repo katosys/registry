@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#------------------------------------------------------------------------------
+# Environment variables:
+#------------------------------------------------------------------------------
+
+export MARATHON_URL="${MARATHON_URL:-http://master-1:8080}"
+export ETCD_ENDPOINTS="${ETCD_ENDPOINTS:-http://quorum-1:2379}"
+
+#------------------------------------------------------------------------------
+# Deploy the calico policy definitions:
+#------------------------------------------------------------------------------
+
+if ! calicoctl apply -f calico.yaml; then
+  echo "Ops! Unable to create the calico policy."
+  exit 1
+fi
+
+#------------------------------------------------------------------------------
+# Deploy the marathon app definition:
+#------------------------------------------------------------------------------
+
+if ! curl -sX POST -H "Content-type: application/json" \
+${MARATHON_URL}/v2/groups -d @marathon.json | jq '.'; then
+  echo "Ops! Unable to deploy marathon app."
+  exit 1
+fi
