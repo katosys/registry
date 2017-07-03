@@ -35,7 +35,7 @@ docker run -it --rm \
 --env ENDPOINT_TIMEOUT=500 \
 --env ENDPOINT_THRESHOLD=5 \
 --env ENDPOINT_BACKOFF=1 \
-quay.io/kato/registry:2.5.1-2
+quay.io/kato/registry:latest
 ```
 
 Verify the status of the registry:
